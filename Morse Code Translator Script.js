@@ -1,8 +1,8 @@
 // JavaScript source code
 let MorseCode = ``
 
-let DIT = new Audio("Sounds/DIT.wav")
-let DAH = new Audio("Sounds/DAH.wav")
+let DIT = new Audio("DIT.wav")
+let DAH = new Audio("DAH.wav")
 let SoundPlaying = false;
 let Paused = false;
 let DurationMills = 0;
@@ -124,10 +124,10 @@ function UpdateDuration() {
 function TogglePause() {
     if (Paused) {
         Paused = false
-        $("#PauseButton").attr("src", "Images/Pause.png")
+        $("#PauseButton").attr("src", "Pause.png")
     } else {
         Paused = true
-        $("#PauseButton").attr("src", "Images/Play.png")
+        $("#PauseButton").attr("src", "Play.png")
     }
 }
 
@@ -166,6 +166,42 @@ function UpdateUndefinedCharaters() {
 function CopyMorseCode() {
     let CopyableText = MorseCode.replaceAll("<br>", Codes[37].Uppercase).replaceAll("&nbsp;", " ")
     navigator.clipboard.writeText(CopyableText)
+}
+
+async function TemporarilyChangeClass(Id, Time, Class) {
+    // Time is in milliseconds
+    $(Id).addClass(Class);
+    await Delay(Time);
+    $(Id).removeClass(Class);
+}
+
+async function Delay(Time) {
+    return new Promise(Resolve => setTimeout(Resolve, Time))
+}
+
+function CheckForDupilactes(Arr, Target) {
+    for (let i = 0; i < Arr.length; i++) {
+        if (Arr[i] == Target) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function CountCharacters(Text, Target) {
+    let Characters = Text.split("");
+    if (Target == undefined) {
+        return Characters.length;
+    }
+
+    let Count = 0;
+    for (let i = 0; i < Characters.length; i++) {
+        if (Text[i] == Target) {
+            Count++;
+        }
+    }
+
+    return Count;
 }
 
 const Codes = [
