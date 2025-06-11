@@ -5,7 +5,7 @@ let DIT = new Audio("DIT.wav")
 let DAH = new Audio("DAH.wav")
 let SoundPlaying = false;
 let Paused = false;
-let DurationMills = 0;
+let DurationMills;
 
 function UpdateMorseCode() {
     let Charaters = document.getElementById("WrittenText").value.split("")
@@ -17,6 +17,17 @@ function UpdateMorseCode() {
 
     UpdateUndefinedCharaters()
     $("#MorseCode").html(MorseCode)
+}
+
+function GetMorseCode(Text) {
+    let Charaters = Text.split("");
+    let Morse = ``
+
+    for (let i = 0; i < Charaters.length; i++) {
+        Morse += Convert(Charaters[i])
+    }
+
+    return Morse;
 }
 
 function Convert(Letter) {
@@ -40,18 +51,18 @@ async function ToggleSound() {
 
         SoundPlaying = false
         Paused = false
-        $("#PauseButton").attr("src", "Images/Blank.png");
-        $("#SoundButton").attr("src", "Images/Play.png");
+        $("#PauseButton").attr("src", "Blank.png");
+        $("#SoundButton").attr("src", "Play.png");
     } else {
         SoundPlaying = true
-        $("#PauseButton").attr("src", "Images/Pause.png");
-        $("#SoundButton").attr("src", "Images/Stop.png");
-
-        DurationMills = (CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250)
+        $("#PauseButton").attr("src", "Pause.png");
+        $("#SoundButton").attr("src", "Stop.png");
+        DurationMills = ((CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250))
+        UpdateDuration()
         for (let i = 0; i < Charaters.length && SoundPlaying; undefined) {
             if (!Paused) {
                 if (Charaters[i] == ".") {
-                    (new Audio("Sounds/DIT.wav")).play();
+                    DIT.play();
                     await Delay(500)
                     DurationMills -= 500;
                 }
@@ -66,9 +77,8 @@ async function ToggleSound() {
                     await Delay(250);
                     DurationMills -= 250;
                 }
-
-                i++
                 UpdateDuration()
+                i++
             } else {
                 await Delay(50);
             }
@@ -76,8 +86,8 @@ async function ToggleSound() {
 
         SoundPlaying = false;
         Paused = false;
-        $("#PauseButton").attr("src", "Images/Blank.png");
-        $("#SoundButton").attr("src", "Images/Play.png");
+        $("#PauseButton").attr("src", "Blank.png");
+        $("#SoundButton").attr("src", "Play.png");
         $("#Duration").html("")
     }
 }
@@ -85,31 +95,16 @@ async function ToggleSound() {
 function UpdateDuration() {
     let DurationSecs = 0;
     let DurationMins = 0;
-
-    let DisplayedMills;
-    let DisplayedSecs;
-
-    for (let i = 0; i < MorseCode.length; i++) {
-
-    }
-    if (DurationMills >= 1000) {
-        DurationMills -= 1000;
+    let DisplayedSecs = 0;
+    TempMills = DurationMills;
+    while (TempMills >= 1000) {
+        TempMills -= 1000;
         DurationSecs++;
     }
     
-    if (DurationSecs >= 60) {
+    while (DurationSecs >= 60) {
         DurationSecs -= 60;
         DurationMins++;
-    }
-
-    if (DurationMills < 10) {
-        DisplayedMills = "000" + Math.floor(DurationMills);
-    } else if (DurationMills < 100) {
-        DisplayedMills = "00" + Math.floor(DurationMills);
-    } else if (DurationMills < 1000) {
-        DisplayedMills = "0" + Math.floor(DurationMills);
-    } else {
-        DisplayedMills = Math.floor(DurationMills);
     }
 
     if (DurationSecs < 10) {
@@ -118,14 +113,14 @@ function UpdateDuration() {
         DisplayedSecs = DurationSecs;
     }
 
-    $("#Duration").html(DurationMins + ":" + DisplayedSecs + ":" + DisplayedMills)
+    $("#Duration").html(DurationMins + ":" + DisplayedSecs)
 }
 
 function TogglePause() {
-    if (Paused) {
+    if (Paused && SoundPlaying) {
         Paused = false
         $("#PauseButton").attr("src", "Pause.png")
-    } else {
+    } else if (SoundPlaying) {
         Paused = true
         $("#PauseButton").attr("src", "Play.png")
     }
