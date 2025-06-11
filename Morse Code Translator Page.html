@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="Libraies/jquery.min.js"></script>
+    <script src="Libraies/MichaelKiwanukaScript.js"></script>
+    <script src="Morse Code Translator Script.js"></script>
+
+    <link rel="stylesheet" href="Libraies/MichaelKiwanukaStyle.css" />
+    <link rel="stylesheet" href="Morse Code Translator Style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+
+    <title>Morse Code Translator</title>
+</head>
+
+    <body>
+        <nav>
+            <h1>Morse Code Translator</h1>
+        </nav>
+
+        <main>
+            <h3 class="SerifFont">Text</h3>
+            <textarea id="WrittenText" oninput="UpdateMorseCode()" class="SerifFont">Hello this is my Morse Code Translator. Type in here to have your text translated. The buttons below will allow you to copy the Morse code to your clipboard and play the Morse code as a sound.</textarea>
+
+            <h3 class="SerifFont">Morse Code</h3>
+            <p id="ErrorList"></p>
+            <img id="CopyButton" class="button" src="Images/Copy.png" onclick="CopyMorseCode(), TemporarilyChangeClass('#CopyButton', 200, 'ButtonClicked')" /> <img class="button" onclick="ToggleSound(), TemporarilyChangeClass('#SoundButton', 200, 'ButtonClicked')" id="SoundButton" src="Images/Play.png"/> <img id="PauseButton" class="button" src="Images/Blank.png" onclick="TogglePause(), TemporarilyChangeClass('#PauseButton', 200, 'ButtonClicked')" />
+            <h6 id="Duration"></h6>
+            <p id="MorseCode" class="SerifFont"></p>
+        </main>
+
+    </body>
+</html>
+
+<script>
+    UpdateMorseCode()
+</script>
