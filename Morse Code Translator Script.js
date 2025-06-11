@@ -1,8 +1,8 @@
 // JavaScript source code
 let MorseCode = ``
 
-let DIT = new Audio("Sounds/DIT.wav")
-let DAH = new Audio("Sounds/DAH.wav")
+let DIT = new Audio("DIT.wav")
+let DAH = new Audio("DAH.wav")
 let SoundPlaying = false;
 let Paused = false;
 let DurationMills = 0;
@@ -124,10 +124,10 @@ function UpdateDuration() {
 function TogglePause() {
     if (Paused) {
         Paused = false
-        $("#PauseButton").attr("src", "Images/Pause.png")
+        $("#PauseButton").attr("src", "Pause.png")
     } else {
         Paused = true
-        $("#PauseButton").attr("src", "Images/Play.png")
+        $("#PauseButton").attr("src", "Play.png")
     }
 }
 
