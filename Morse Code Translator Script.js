@@ -1,22 +1,22 @@
 // JavaScript source code
-let MorseCode = ``
+let MorseCode = ``;
 
-let DIT = new Audio("DIT.wav")
-let DAH = new Audio("DAH.wav")
+let DIT = new Audio("DIT.wav");
+let DAH = new Audio("DAH.wav");
 let SoundPlaying = false;
 let Paused = false;
 let DurationMills = 0;
 
 function UpdateMorseCode() {
-    let Charaters = document.getElementById("WrittenText").value.split("")
-    MorseCode = ``
+    let Charaters = document.getElementById("WrittenText").value.split("");
+    MorseCode = ``;
 
     for (let i = 0; i < Charaters.length; i++) {
-        MorseCode += Convert(Charaters[i])
+        MorseCode += Convert(Charaters[i]);
     }
 
-    UpdateUndefinedCharaters()
-    $("#MorseCode").html(MorseCode)
+    UpdateUndefinedCharaters();
+    $("#MorseCode").html(MorseCode);
 }
 
 function Convert(Letter) {
@@ -29,7 +29,7 @@ function Convert(Letter) {
 }
 
 async function ToggleSound() {
-    let Charaters = MorseCode.split("")
+    let Charaters = MorseCode.split("");
 
     if (SoundPlaying) {
         DIT.pause();
@@ -38,8 +38,8 @@ async function ToggleSound() {
         DIT.currentTime = 0;
         DAH.currentTime = 0;
 
-        SoundPlaying = false
-        Paused = false
+        SoundPlaying = false;
+        Paused = false;
         $("#PauseButton").attr("src", "Images/Blank.png");
         $("#SoundButton").attr("src", "Images/Play.png");
     } else {
@@ -47,12 +47,12 @@ async function ToggleSound() {
         $("#PauseButton").attr("src", "Images/Pause.png");
         $("#SoundButton").attr("src", "Images/Stop.png");
 
-        DurationMills = (CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250)
+        DurationMills = (CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250);
         for (let i = 0; i < Charaters.length && SoundPlaying; undefined) {
             if (!Paused) {
                 if (Charaters[i] == ".") {
                     (new Audio("Sounds/DIT.wav")).play();
-                    await Delay(500)
+                    await Delay(500);
                     DurationMills -= 500;
                 }
 
@@ -67,8 +67,8 @@ async function ToggleSound() {
                     DurationMills -= 250;
                 }
 
-                i++
-                UpdateDuration()
+                i++;
+                UpdateDuration();
             } else {
                 await Delay(50);
             }
@@ -78,7 +78,7 @@ async function ToggleSound() {
         Paused = false;
         $("#PauseButton").attr("src", "Images/Blank.png");
         $("#SoundButton").attr("src", "Images/Play.png");
-        $("#Duration").html("")
+        $("#Duration").html("");
     }
 }
 
