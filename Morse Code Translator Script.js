@@ -1,35 +1,46 @@
 // JavaScript source code
-let MorseCode = ``;
+let MorseCode = ``
 
-let DIT = new Audio("DIT.wav");
-let DAH = new Audio("DAH.wav");
+let DIT = new Audio("DIT.wav")
+let DAH = new Audio("DAH.wav")
 let SoundPlaying = false;
 let Paused = false;
-let DurationMills = 0;
+let DurationMills;
 
 function UpdateMorseCode() {
-    let Charaters = document.getElementById("WrittenText").value.split("");
-    MorseCode = ``;
+    let Charaters = document.getElementById("WrittenText").value.split("")
+    MorseCode = ``
 
     for (let i = 0; i < Charaters.length; i++) {
-        MorseCode += Convert(Charaters[i]);
+        MorseCode += Convert(Charaters[i])
     }
 
-    UpdateUndefinedCharaters();
-    $("#MorseCode").html(MorseCode);
+    UpdateUndefinedCharaters()
+    $("#MorseCode").html(MorseCode)
+}
+
+function GetMorseCode(Text) {
+    let Charaters = Text.split("");
+    let Morse = ``
+
+    for (let i = 0; i < Charaters.length; i++) {
+        Morse += Convert(Charaters[i])
+    }
+
+    return Morse;
 }
 
 function Convert(Letter) {
-    for (let i = 0; i < Converions.length; i++) {
-        if (Converions[i].Uppercase == Letter || Converions[i].Lowercase == Letter) {
-            return Converions[i].Morse;
+    for (let i = 0; i < Codes.length; i++) {
+        if (Codes[i].Uppercase == Letter || Codes[i].Lowercase == Letter) {
+            return Codes[i].Morse;
         }
     }
     return "";
 }
 
 async function ToggleSound() {
-    let Charaters = MorseCode.split("");
+    let Charaters = MorseCode.split("")
 
     if (SoundPlaying) {
         DIT.pause();
@@ -38,21 +49,21 @@ async function ToggleSound() {
         DIT.currentTime = 0;
         DAH.currentTime = 0;
 
-        SoundPlaying = false;
-        Paused = false;
+        SoundPlaying = false
+        Paused = false
         $("#PauseButton").attr("src", "Blank.png");
         $("#SoundButton").attr("src", "Play.png");
     } else {
         SoundPlaying = true
         $("#PauseButton").attr("src", "Pause.png");
         $("#SoundButton").attr("src", "Stop.png");
-
-        DurationMills = (CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250);
+        DurationMills = ((CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250))
+        UpdateDuration()
         for (let i = 0; i < Charaters.length && SoundPlaying; undefined) {
             if (!Paused) {
                 if (Charaters[i] == ".") {
                     DIT.play();
-                    await Delay(500);
+                    await Delay(500)
                     DurationMills -= 500;
                 }
 
@@ -66,9 +77,8 @@ async function ToggleSound() {
                     await Delay(250);
                     DurationMills -= 250;
                 }
-
-                i++;
-                UpdateDuration();
+                UpdateDuration()
+                i++
             } else {
                 await Delay(50);
             }
@@ -78,38 +88,23 @@ async function ToggleSound() {
         Paused = false;
         $("#PauseButton").attr("src", "Blank.png");
         $("#SoundButton").attr("src", "Play.png");
-        $("#Duration").html("");
+        $("#Duration").html("")
     }
 }
 
 function UpdateDuration() {
     let DurationSecs = 0;
     let DurationMins = 0;
-
-    let DisplayedMills;
-    let DisplayedSecs;
-
-    for (let i = 0; i < MorseCode.length; i++) {
-
-    }
-    if (DurationMills >= 1000) {
-        DurationMills -= 1000;
+    let DisplayedSecs = 0;
+    TempMills = DurationMills;
+    while (TempMills >= 1000) {
+        TempMills -= 1000;
         DurationSecs++;
     }
     
-    if (DurationSecs >= 60) {
+    while (DurationSecs >= 60) {
         DurationSecs -= 60;
         DurationMins++;
-    }
-
-    if (DurationMills < 10) {
-        DisplayedMills = "000" + Math.floor(DurationMills);
-    } else if (DurationMills < 100) {
-        DisplayedMills = "00" + Math.floor(DurationMills);
-    } else if (DurationMills < 1000) {
-        DisplayedMills = "0" + Math.floor(DurationMills);
-    } else {
-        DisplayedMills = Math.floor(DurationMills);
     }
 
     if (DurationSecs < 10) {
@@ -118,14 +113,14 @@ function UpdateDuration() {
         DisplayedSecs = DurationSecs;
     }
 
-    $("#Duration").html(DurationMins + ":" + DisplayedSecs + ":" + DisplayedMills)
+    $("#Duration").html(DurationMins + ":" + DisplayedSecs)
 }
 
 function TogglePause() {
-    if (Paused) {
+    if (Paused && SoundPlaying) {
         Paused = false
         $("#PauseButton").attr("src", "Pause.png")
-    } else {
+    } else if (SoundPlaying) {
         Paused = true
         $("#PauseButton").attr("src", "Play.png")
     }
@@ -164,7 +159,7 @@ function UpdateUndefinedCharaters() {
 }
 
 function CopyMorseCode() {
-    let CopyableText = MorseCode.replaceAll("<br>", Converions[37].Uppercase).replaceAll("&nbsp;", " ")
+    let CopyableText = MorseCode.replaceAll("<br>", Codes[37].Uppercase).replaceAll("&nbsp;", " ")
     navigator.clipboard.writeText(CopyableText)
 }
 
@@ -204,7 +199,7 @@ function CountCharacters(Text, Target) {
     return Count;
 }
 
-const Converions = [
+const Codes = [
     { Uppercase: `A`, Lowercase: `a`, Morse: `._` },
     { Uppercase: `B`, Lowercase: `b`, Morse: `_...` },
     { Uppercase: `C`, Lowercase: `c`, Morse: `_._.` },
