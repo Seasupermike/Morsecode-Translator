@@ -77,11 +77,11 @@ async function ToggleSound() {
                     await Delay(250);
                     DurationMills -= 250;
                 }
-                UpdateDuration()
                 i++
             } else {
                 await Delay(50);
             }
+            UpdateDuration()
         }
 
         SoundPlaying = false;
