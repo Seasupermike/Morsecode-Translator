@@ -20,9 +20,9 @@ function UpdateMorseCode() {
 }
 
 function Convert(Letter) {
-    for (let i = 0; i < Codes.length; i++) {
-        if (Codes[i].Uppercase == Letter || Codes[i].Lowercase == Letter) {
-            return Codes[i].Morse;
+    for (let i = 0; i < Converions.length; i++) {
+        if (Converions[i].Uppercase == Letter || Converions[i].Lowercase == Letter) {
+            return Converions[i].Morse;
         }
     }
     return "";
@@ -51,7 +51,7 @@ async function ToggleSound() {
         for (let i = 0; i < Charaters.length && SoundPlaying; undefined) {
             if (!Paused) {
                 if (Charaters[i] == ".") {
-                    (new Audio("Sounds/DIT.wav")).play();
+                    DIT.play();
                     await Delay(500);
                     DurationMills -= 500;
                 }
@@ -164,7 +164,7 @@ function UpdateUndefinedCharaters() {
 }
 
 function CopyMorseCode() {
-    let CopyableText = MorseCode.replaceAll("<br>", Codes[37].Uppercase).replaceAll("&nbsp;", " ")
+    let CopyableText = MorseCode.replaceAll("<br>", Converions[37].Uppercase).replaceAll("&nbsp;", " ")
     navigator.clipboard.writeText(CopyableText)
 }
 
@@ -204,7 +204,7 @@ function CountCharacters(Text, Target) {
     return Count;
 }
 
-const Codes = [
+const Converions = [
     { Uppercase: `A`, Lowercase: `a`, Morse: `._` },
     { Uppercase: `B`, Lowercase: `b`, Morse: `_...` },
     { Uppercase: `C`, Lowercase: `c`, Morse: `_._.` },
