@@ -40,12 +40,12 @@ async function ToggleSound() {
 
         SoundPlaying = false;
         Paused = false;
-        $("#PauseButton").attr("src", "Images/Blank.png");
-        $("#SoundButton").attr("src", "Images/Play.png");
+        $("#PauseButton").attr("src", "Blank.png");
+        $("#SoundButton").attr("src", "Play.png");
     } else {
         SoundPlaying = true
-        $("#PauseButton").attr("src", "Images/Pause.png");
-        $("#SoundButton").attr("src", "Images/Stop.png");
+        $("#PauseButton").attr("src", "Pause.png");
+        $("#SoundButton").attr("src", "Stop.png");
 
         DurationMills = (CountCharacters(MorseCode, ".") * 500) + (CountCharacters(MorseCode, "_") * 750) + (CountCharacters(MorseCode, "&nbsp;") * 250);
         for (let i = 0; i < Charaters.length && SoundPlaying; undefined) {
@@ -76,8 +76,8 @@ async function ToggleSound() {
 
         SoundPlaying = false;
         Paused = false;
-        $("#PauseButton").attr("src", "Images/Blank.png");
-        $("#SoundButton").attr("src", "Images/Play.png");
+        $("#PauseButton").attr("src", "Blank.png");
+        $("#SoundButton").attr("src", "Play.png");
         $("#Duration").html("");
     }
 }
